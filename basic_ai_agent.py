@@ -5,6 +5,7 @@ from azure.ai.projects.models import FunctionTool, ToolSet, CodeInterpreterTool
 import logging
 import random
 import json
+from dotenv import load_dotenv
 
 
 # Custom functions that the assistant can call
@@ -122,4 +123,5 @@ def main():
 
 
 if __name__ == "__main__":
+    load_dotenv() # Load environment variables from .env file
     main()
