@@ -101,7 +101,7 @@ def main():
 
             # Fetch and log last message
             messages = project_client.agents.list_messages(thread_id=thread.id)
-            response_msg = messages.get_last_message_by_sender("assistant")
+            response_msg = messages.get_last_message_by_role("assistant")
             for text_msg in response_msg.text_messages:
                 print(f"Assistant: {text_msg.text.value}")
 
