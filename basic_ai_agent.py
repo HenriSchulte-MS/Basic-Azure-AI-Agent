@@ -44,7 +44,7 @@ def main():
     FILES_DIR = "files"
     os.makedirs(FILES_DIR, exist_ok=True)
 
-    # Create an Azure AI Client from a connection string, copied from your Azure AI Foundry project.
+    # Create an Azure AI Client from a connection string, copied from your Azure AI Foundry project
     # It should be in the format "<HostName>;<AzureSubscriptionId>;<ResourceGroup>;<HubName>"
 
     project_client = AIProjectClient.from_connection_string(
@@ -61,14 +61,16 @@ def main():
     toolset.add(functions)
     toolset.add(CodeInterpreterTool())
 
-    # Create agent with toolset and process a run
-
+    # Create agent
+    model = "gpt-4o-mini"
+    agent_name = "my-agent"
+    instructions = "You are a helpful agent"
     agent = project_client.agents.create_agent(
-        model="gpt-4o-mini", name="my-agent", instructions="You are a helpful agent", toolset=toolset
+        model=model, name=agent_name, instructions=instructions, toolset=toolset
     )
     logging.info(f"Created agent, ID: {agent.id}")
 
-    # Create thread for communication
+    # Create a message thread
     thread = project_client.agents.create_thread()
     logging.info(f"Created thread, ID: {thread.id}")
 
@@ -83,7 +85,7 @@ def main():
             if user_input == "exit":
                 break
 
-            # Create message to thread
+            # Create a message in the thread
             message = project_client.agents.create_message(
                 thread_id=thread.id,
                 role="user",
@@ -91,7 +93,7 @@ def main():
             )
             logging.info(f"Created message, ID: {message.id}")
 
-            # Create and process agent run in thread with tools
+            # Run the agent
             run = project_client.agents.create_and_process_run(thread_id=thread.id, assistant_id=agent.id)
             logging.info(f"Run finished with status: {run.status}")
 
