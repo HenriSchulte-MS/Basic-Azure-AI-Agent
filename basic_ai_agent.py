@@ -109,10 +109,11 @@ def main():
 
             # Save and open image if available
             for image_content in response_msg.image_contents:
-                logging.info(f"Image File ID: {image_content.image_file.file_id}")
-                file_name = f"{image_content.image_file.file_id}_image_file.png"
+                file_id = image_content.image_file.file_id
+                logging.info(f"Image File ID: {file_id}")
+                file_name = f"{file_id}_image_file.png"
                 file_path = os.path.join(FILES_DIR, file_name)
-                project_client.agents.save_file(file_id=image_content.image_file.file_id, file_name=file_name, target_dir=FILES_DIR)
+                project_client.agents.save_file(file_id=file_id, file_name=file_name, target_dir=FILES_DIR)
                 logging.info(f"Saved image file to: {file_path}")
                 os.startfile(file_path)  # Open the saved image file
 
