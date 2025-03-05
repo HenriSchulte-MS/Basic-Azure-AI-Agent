@@ -117,6 +117,17 @@ def main():
                 logging.info(f"Saved image file to: {file_path}")
                 os.startfile(file_path)  # Open the saved image file
 
+            # Save and open attachments if available
+            for attachment in response_msg.attachments:
+                file_id = attachment.file_id
+                logging.info(f"Attachment File ID: {file_id}")
+                file = project_client.agents.get_file(file_id=file_id)
+                file_name = file.filename.split('/')[-1]
+                file_path = os.path.join(FILES_DIR, file_name)
+                project_client.agents.save_file(file_id=file_id, file_name=file_name, target_dir=FILES_DIR)
+                logging.info(f"Saved attachment file to: {file_path}")
+                os.startfile(file_path)
+
         except Exception as e:
             logging.error(f"An error occurred: {e}")
 
